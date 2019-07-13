@@ -112,7 +112,7 @@ class DualStepper:
             print('Remaining steps %d %d' % (countdown0, countdown1))
         # Alternate between two motors
         while countdown0 > 0 and countdown1 > 0:
-            for i in range(countdown0):
+            for i in range(slot0):
 #                if display:
 #                    print('0')
                 countdown0 = countdown0 - 1
@@ -121,7 +121,7 @@ class DualStepper:
                 GPIO.output(self.pul0,0)
                 time.sleep(tau)
 
-            for i in range(countdown1):
+            for i in range(slot1):
                 # if display:
                 #     print('1')
                 countdown1 = countdown1 - 1
@@ -257,20 +257,6 @@ class Servo():
     def stop(self):
         self.pwm.stop()
 
-class InfraredPair():
-    def __init__(self, pin):
-        self.pin = pin
-        GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-    def waitforpress(self):
-        GPIO.wait_for_edge(self.pin, GPIO.FALLING)
-        
-    def getinput(self):
-        return GPIO.input(self.pin)
-
-    def getneginput(self):
-        return (not GPIO.input(self.pin))
-
 
     
 class Relay():
@@ -336,8 +322,8 @@ def wubi(p0,b0,p1,b1):
     print("da1:",round(da1*100)/100,"da4:",round(da4*100)/100)
     
 
-    step_da1 = round(32*200*da1/360)
-    step_da4 = round(32*200*da4/360)
+    step_da1 = round(4*200*da1/360)
+    step_da4 = round(4*200*da4/360)
     # step_da1 = round(200*da1/360)
     # step_da4 = round(200*da4/360)
     print("step_da1",step_da1,"step_da4",step_da4)
@@ -345,11 +331,10 @@ def wubi(p0,b0,p1,b1):
     time.sleep(1)
     return
 
-def bdxz(ms,msx):
+def bdxz(ms,msx, cond=lambda:True):
 
-    bd_xz.rotate(ms,msx)
+    bd_xz.rotate(ms,msx,btnZ.getinput)
     time.sleep(1)
-
     return
 
 if __name__ == '__main__':
@@ -373,7 +358,10 @@ if __name__ == '__main__':
     # time.sleep(2)
     # up_down(1-dir, ns)
     # print("step1")
-    bdxz(200,300,btnZ.getinput)
+    print("btnxz",btnxz.getinput())
+    bdxz(200,300,btnxz.getinput)
+    print("btnxz",btnxz.getinput())
+
 
     # bdxz(-200,200)
     # bdxz(-ms,msx)
