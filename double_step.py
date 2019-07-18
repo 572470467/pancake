@@ -61,6 +61,6 @@ def double_step(nsa,dia,nsb,dib,t):
             if count>=nsa or count1>=nsb:
                 break
 if __name__ == '__main__':
-    double_step(10,0,128,1,5)
+    double_step(10,0,256,1,5)
 
 
