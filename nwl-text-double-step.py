@@ -20,15 +20,13 @@ def Step_a():
         GPIO.output(pin_dir0,GPIO.HIGH)
     count0=0
     if nsa==0:
-        count0+=0
+       count0+=0
     else:
-        while True:
+        for v in range(0,nsa):
             GPIO.output(pin_pul0,GPIO.HIGH)
             time.sleep(t/nsa)
             GPIO.output(pin_pul0,GPIO.LOW)
             count0+=1
-            if count0==nsa:
-                break
     with open("data1.csv", "a") as datafile:
         datafile.write("  %d"%count0)
 def Step_b():
@@ -41,14 +39,11 @@ def Step_b():
     if nsb==0:
         count1+=0
     else:
-        while True:
+        for i in range(0,nsb):
             GPIO.output(pin_pul1,GPIO.HIGH)
-            time.sleep(t/nsb/2)
+            time.sleep(t/nsb)
             GPIO.output(pin_pul1,GPIO.LOW)
-            time.sleep(t/nsb/2)
             count1+=1
-            if count1==nsb:
-                break
     with open("data1.csv", "a") as datafile:
                 datafile.write(",  %d\n"%count1)
 def double_step(nsa,dia,nsb,dib,t):
@@ -58,9 +53,9 @@ def double_step(nsa,dia,nsb,dib,t):
     for t in threads:
         t.start()
 if __name__ == '__main__':
-    nsa=200
+    nsa=110
     dia=1
-    nsb=1500
+    nsb=1780
     dib=0
     t=5
     with open("data1.csv", "a") as datafile:
@@ -68,5 +63,7 @@ if __name__ == '__main__':
         datafile.write("  %d"%nsa)
         datafile.write("  %d"%dia)
         datafile.write("  %d"%nsb)
+        datafile.write("  %d"%dib)
         datafile.write(", %d"%t)
     double_step(nsa,dia,nsb,dib,t)
+
